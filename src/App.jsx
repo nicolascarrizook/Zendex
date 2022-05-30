@@ -10,12 +10,10 @@ const App = () => {
     const [data, setData] = useState([]);
     const [dataOrganization, setDataOrganization] = useState([]);
 
-
     const [ucid, setUcid] = useState('');
     const [input, setInput] = useState('');
     const [token, setToken] = useState('');
     const [error, setError] = useState(false);
-    const [copied, setCopied] = useState(false);
 
     const { search } = useLocation();
     const searchParams = new URLSearchParams(search);
@@ -77,9 +75,7 @@ const App = () => {
                 if (response.status === 200) {
                     const data = response.data;
                     if (data) {
-                        console.log('data', data);
                         setData(data);
-                        console.log('flag0', data.data.split('|')[0].split(':')[1].trim())
                         setInput(data.data.split('|')[0].split(':')[1].trim());
                     }
                 }
@@ -180,33 +176,41 @@ const App = () => {
                     dataOrganization.results && data.data ?
                         dataOrganization.results.map((organization, i) => {
                             return (
-                                <div key={i} >
-                                    <div className='container__list'>
-                                        <div>
-                                            <h3>Información del cliente</h3>
+                                <div key={i} className="container-fluid container__info">
+                                    <div>
+                                        <div className='container__list'>
+                                            <div>
+                                                <h3>Información del cliente</h3>
+                                            </div>
+                                            <ul>
+                                                <li className='list__element'>
+                                                    <span className='clipboardId'><b>id:</b> {organization.id}</span>
+                                                    <CopyToClipboard text={organization.id}>
+                                                        <button className='btn btn--copy btn-primary btn-sm' onClick={notify}>Copiar</button>
+                                                    </CopyToClipboard>
+                                                </li>
+                                                <li className='list__element'>
+                                                    <span className='clipboardName'>  <b>Nombre:</b> {organization.organization_fields.poc_name}</span>
+                                                    <CopyToClipboard text={organization.organization_fields.poc_name}>
+                                                        <button className='btn btn--copy btn-primary btn-sm' onClick={notify}>Copiar</button>
+                                                    </CopyToClipboard>
+                                                </li>
+                                                <li className='list__element'>
+                                                    <span className='clipboardCuit'><b>Nro de cuit:</b> {organization.organization_fields.tax_id}</span>
+                                                    <CopyToClipboard text={organization.organization_fields.tax_id}>
+                                                        <button className='btn btn--copy btn-primary btn-sm' onClick={notify}>Copiar</button>
+                                                    </CopyToClipboard>
+                                                </li>
+                                            </ul>
+                                            <Toaster />
                                         </div>
-                                        <ul>
-                                            <li className='list__element'>
-                                                <span className='clipboardId'><b>id:</b> {organization.id}</span>
-                                                <CopyToClipboard text={organization.id}>
-                                                    <button className='btn btn--copy btn-primary btn-sm' onClick={notify}>Copiar</button>
-                                                </CopyToClipboard>
-                                            </li>
-                                            <li className='list__element'>
-                                                <span className='clipboardName'>  <b>Nombre:</b> {organization.organization_fields.poc_name}</span>
-                                                <CopyToClipboard text={organization.organization_fields.poc_name}>
-                                                    <button className='btn btn--copy btn-primary btn-sm' onClick={notify}>Copiar</button>
-                                                </CopyToClipboard>
-                                            </li>
-                                            <li className='list__element'>
-                                                <span className='clipboardCuit'><b>Nro de cuit:</b> {organization.organization_fields.tax_id}</span>
-                                                <CopyToClipboard text={organization.organization_fields.tax_id}>
-                                                    <button className='btn btn--copy btn-primary btn-sm' onClick={notify}>Copiar</button>
-                                                </CopyToClipboard>
-                                            </li>
-                                        </ul>
-                                        <Toaster />
-
+                                        <div>
+                                            <div>
+                                                <p>Información adicional</p>
+                                            </div>
+                                            <hr />
+                                            <h4><b>{data.comments}</b></h4>
+                                        </div>
                                     </div>
                                 </div>
                             )
@@ -219,7 +223,7 @@ const App = () => {
                     <div className='bg-secondary' >
                         <form onSubmit={submitAction} className='text-center form-inline'>
                             <div className='form-group'>
-                                <p>Buscar por número de CUIT</p>
+                                <p>Buscar por número de cuit</p>
                                 <label htmlFor="cuit" className='sr-only'>CUIT: </label>
                                 <div>
                                     <input
@@ -231,45 +235,56 @@ const App = () => {
                                 </div>
                             </div>
                             <div className='boton'>
-                                <button type='submit' className="btn btn-primary"> Buscar por CUIL</button>
+                                <button type='submit' className="btn btn-primary"> Consultar </button>
                             </div>
+                            <hr />
                         </form>
                         <div className="container__input" >
                             <div>
-                                <div>
-                                    <h3>Información del cliente</h3>
-                                </div>
+
                                 {
                                     dataOrganization.results ?
                                         dataOrganization.results.map((organization, i) => {
                                             return (
-                                                <div key={i}>
-                                                    <ul>
-                                                        <li className='list__element'>
-                                                            <span className='clipboardId'><b>id:</b> {organization.id}</span>
-                                                            <CopyToClipboard text={organization.id}>
-                                                                <button className='btn btn--copy btn-primary btn-sm' onClick={notify}>Copiar</button>
-                                                            </CopyToClipboard>
-                                                        </li>
-                                                        <li className='list__element'>
-                                                            <span className='clipboardName'>  <b>Nombre:</b> {organization.organization_fields.poc_name}</span>
-                                                            <CopyToClipboard text={organization.organization_fields.poc_name}>
-                                                                <button className='btn btn--copy btn-primary btn-sm' onClick={notify}>Copiar</button>
-                                                            </CopyToClipboard>
-                                                        </li>
-                                                        <li className='list__element'>
-                                                            <span className='clipboardCuit'><b>Nro de cuit:</b> {organization.organization_fields.tax_id}</span>
-                                                            <CopyToClipboard text={organization.organization_fields.tax_id}>
-                                                                <button className='btn btn--copy btn-primary btn-sm' onClick={notify}>Copiar</button>
-                                                            </CopyToClipboard>
-
-                                                        </li>
-                                                    </ul>
-                                                    <Toaster />
+                                                <div key={i} className="container-fluid container__info">
+                                                    <div>
+                                                        <div>
+                                                            <p>Información del cliente</p>
+                                                        </div>
+                                                        <hr />
+                                                        <ul>
+                                                            <li className='list__element'>
+                                                                <span className='clipboardId'><b>id:</b> {organization.id}</span>
+                                                                <CopyToClipboard text={organization.id}>
+                                                                    <button className='btn btn--copy btn-primary btn-sm' onClick={notify}>Copiar</button>
+                                                                </CopyToClipboard>
+                                                            </li>
+                                                            <li className='list__element'>
+                                                                <span className='clipboardCuit'><b>Código de cliente:</b> {organization.external_id}</span>
+                                                                <CopyToClipboard text={organization.organization_fields.tax_id}>
+                                                                    <button className='btn btn--copy btn-primary btn-sm' onClick={notify}>Copiar</button>
+                                                                </CopyToClipboard>
+                                                            </li>
+                                                            <li className='list__element'>
+                                                                <span className='clipboardName'>  <b>Nombre:</b> {organization.organization_fields.poc_name}</span>
+                                                                <CopyToClipboard text={organization.organization_fields.poc_name}>
+                                                                    <button className='btn btn--copy btn-primary btn-sm' onClick={notify}>Copiar</button>
+                                                                </CopyToClipboard>
+                                                            </li>
+                                                        </ul>
+                                                        <Toaster />
+                                                    </div>
+                                                    <div>
+                                                        <div>
+                                                            <p>Información adicional</p>
+                                                        </div>
+                                                        <hr />
+                                                        <h4><b>{data.comments}</b></h4>
+                                                    </div>
                                                 </div>
                                             )
                                         }) :
-                                        'No hay registros del cliente'
+                                        'No se realizó ninguna consulta'
                                 }
                             </div>
                         </div>
