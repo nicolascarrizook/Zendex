@@ -177,8 +177,7 @@ const App = () => {
                         dataOrganization.results.map((organization, i) => {
                             return (
                                 <div key={i} className="container-fluid container__info">
-                                    <div>
-                                        <div className='container__list'>
+                                        <div>
                                             <div>
                                                 <h3>Información del cliente</h3>
                                             </div>
@@ -190,14 +189,14 @@ const App = () => {
                                                     </CopyToClipboard>
                                                 </li>
                                                 <li className='list__element'>
-                                                    <span className='clipboardName'>  <b>Nombre:</b> {organization.organization_fields.poc_name}</span>
-                                                    <CopyToClipboard text={organization.organization_fields.poc_name}>
+                                                    <span className='clipboardCuit'><b>Código de cliente:</b> {organization.external_id}</span>
+                                                    <CopyToClipboard text={organization.organization_fields.tax_id}>
                                                         <button className='btn btn--copy btn-primary btn-sm' onClick={notify}>Copiar</button>
                                                     </CopyToClipboard>
                                                 </li>
                                                 <li className='list__element'>
-                                                    <span className='clipboardCuit'><b>Nro de cuit:</b> {organization.organization_fields.tax_id}</span>
-                                                    <CopyToClipboard text={organization.organization_fields.tax_id}>
+                                                    <span className='clipboardName'>  <b>Nombre:</b> {organization.organization_fields.poc_name}</span>
+                                                    <CopyToClipboard text={organization.organization_fields.poc_name}>
                                                         <button className='btn btn--copy btn-primary btn-sm' onClick={notify}>Copiar</button>
                                                     </CopyToClipboard>
                                                 </li>
@@ -212,7 +211,6 @@ const App = () => {
                                             <h4><b>{data.comments}</b></h4>
                                         </div>
                                     </div>
-                                </div>
                             )
                         }) : null
                 }
@@ -228,7 +226,7 @@ const App = () => {
                                 <div>
                                     <input
                                         className="form-control"
-                                        type="number" class="form-control" placeholder="Número de CUIT"
+                                        type="number" placeholder="Número de CUIT"
                                         value={input}
                                         onChange={(e) => setInput(e.target.value)}
                                     />
