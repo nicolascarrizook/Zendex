@@ -4,6 +4,7 @@ import axios from 'axios';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import toast, { ToastBar, Toaster } from 'react-hot-toast';
 import './styles.css';
+import { ConstructionOutlined } from '@mui/icons-material';
 
 const App = () => {
 
@@ -18,6 +19,8 @@ const App = () => {
     const { search } = useLocation();
     const searchParams = new URLSearchParams(search);
     const ucidParam = searchParams.get('uui')
+
+    console.log(ucidParam);
 
     useEffect(() => {
         setUcid(ucidParam);
@@ -85,6 +88,8 @@ const App = () => {
             }
             );
     }
+
+    console.log('flag DATA: ', data);
 
     const getDataInZendesk = async (cuit) => {
         const url = 'https://ab-inbevar.zendesk.com/api/v2/search?query=type:organization tax_id:' + cuit;
